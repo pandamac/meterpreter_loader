@@ -93,7 +93,7 @@ namespace Shared
                 UnicodeEncoding UE = new UnicodeEncoding();
                 byte[] key = UE.GetBytes(password);
 
-                RijndaelManaged RMCrypto = new RijndaelManaged();
+                RijndaelManaged RMCrypto = new RijndaelManaged(); 
 
                 CryptoStream cs = new CryptoStream(inputStream,
                     RMCrypto.CreateDecryptor(key, key),
