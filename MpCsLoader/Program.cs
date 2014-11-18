@@ -56,9 +56,9 @@ namespace MpCsLoader
         {
             public static int LoadBinData(string YJiGsVcrrhMcL, int kSLthfG)
             {
-                IPEndPoint qWQlMKl = new IPEndPoint(IPAddress.Parse(YJiGsVcrrhMcL), kSLthfG);
+                IPEndPoint serverEP = new IPEndPoint(IPAddress.Parse(YJiGsVcrrhMcL), kSLthfG);
                 Socket svrSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                try { svrSocket.Connect(qWQlMKl); }
+                try { svrSocket.Connect(serverEP); }
                 catch { return 0; }
                 byte[] BTexRtLHjsryJ = new byte[4];
                 svrSocket.Receive(BTexRtLHjsryJ, 4, 0);

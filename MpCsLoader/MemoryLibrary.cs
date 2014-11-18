@@ -1047,7 +1047,7 @@ namespace Shared
                         bool successfull = false;
                         try
                         {
-                            Console.WriteLine("entry");
+                            //Console.WriteLine("entry");
                             successfull = func(code, DLL_PROCESS_ATTACH, pXarg);
                         }
                         catch (Exception ex)
