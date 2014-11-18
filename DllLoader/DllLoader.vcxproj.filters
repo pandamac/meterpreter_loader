@@ -18,18 +18,18 @@
     <ClCompile Include="DllLoader.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MemoryModule.c">
+    <ClCompile Include="MemoryModule.c">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\MemoryModule.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="rc4.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryModule.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

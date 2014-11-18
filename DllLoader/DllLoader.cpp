@@ -15,7 +15,7 @@ SOCKET my_socket;
 
 typedef DWORD  (__cdecl  *Init)(SOCKET fd);
 
-#include "../../MemoryModule.h"
+#include "MemoryModule.h"
 
 /*typedef int (*addNumberProc)(int, int);*/
 
